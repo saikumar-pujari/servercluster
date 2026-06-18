@@ -1,0 +1,29 @@
+- name: Experiment 7-Run
+hosts: local
+tasks:
+  - name: print hai
+    debug:
+    msg: "hai ansible"
+  - name: Ensure Maven is available
+    command: mvn --version
+    environment:
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+  - name: Run Maven build
+    command: mvn clean install
+    args:
+    chdir: /mnt/d/Subjects/Lab/Mvnproject/myapp
+    environment:
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+  - name: Run Maven-built JAR
+    command: java -jar target/myapp-1.0-SNAPSHOT.jar
+    args:
+    chdir: /mnt/d/Subjects/Lab/Mvnproject/myapp
+    environment:
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+    register: jar_output
+  - name: Show output from java JAR
+    debug:
+    var: jar_output.stdout
+
+wsl ansible-playbook -i /mnt/e/Dhivya/Devops/ansible-exp7/inventory
+/mnt/e/Dhivya/Devops/ansible-exp7/playbook.yml
